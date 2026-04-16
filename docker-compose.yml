@@ -1,16 +1,20 @@
 services:
   web-research:
     build: .
+    container_name: uaf-web-research
     ports:
       - "3456:3456"
     env_file: .env
     depends_on:
       searxng:
         condition: service_healthy
+    networks:
+      - uaf-network
     restart: unless-stopped
 
   searxng:
     image: searxng/searxng:latest
+    container_name: uaf-searxng
     ports:
       - "8888:8080"
     environment:
@@ -23,4 +27,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - uaf-network
     restart: unless-stopped
+
+networks:
+  uaf-network:
+    external: true
+    name: uaf-network
