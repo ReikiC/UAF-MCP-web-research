@@ -32,10 +32,11 @@ services:
     restart: unless-stopped
 
   nbrt-mcp:
-    image: node:22-slim
+    build:
+      context: .
+      dockerfile: Dockerfile.nbrt-mcp
     container_name: uaf-nbrt-mcp
-    working_dir: /app
-    command: npx -y supergateway --stdio "npx -y nbrt-mcp" --port 8000 --ssePath /sse --messagePath /message
+    command: "--host=0.0.0.0 --port=8000 -- npx -y nbrt-mcp"
     networks:
       - uaf-network
     restart: unless-stopped
