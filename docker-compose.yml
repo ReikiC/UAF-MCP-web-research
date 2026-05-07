@@ -31,6 +31,15 @@ services:
       - uaf-network
     restart: unless-stopped
 
+  nbrt-mcp:
+    image: node:22-slim
+    container_name: uaf-nbrt-mcp
+    working_dir: /app
+    command: npx -y supergateway --stdio "npx -y nbrt-mcp" --port 8000 --ssePath /sse --messagePath /message
+    networks:
+      - uaf-network
+    restart: unless-stopped
+
 networks:
   uaf-network:
     external: true
